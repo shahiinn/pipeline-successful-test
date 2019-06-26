@@ -1,0 +1,65 @@
+resources:
+  - name: dh_image
+    type: Image
+    configuration:
+      registry: dockerhub
+      imageName: nginx
+      imageTag: latest
+  - name: docker_image
+    type: Image
+    configuration:
+      registry: artdisha
+      sourceRepository: docker
+      imageName: 35.240.195.241:8081/docker/busybox
+      imageTag: latest
+  - name: dockerbuild_repo
+    type: GitRepo
+    configuration:
+      path: dishameswania/ArtifactoryTest
+      gitProvider: github-disha
+  - name: docker_build_info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artdisha
+      buildName: docker_example
+      buildNumber: 1
+  - name: files
+    type: FileSpec
+    configuration:
+      sourceArtifactory: artdisha
+      pattern: generic-local/*
+      
+pipelines:
+  - name: docker_example
+    steps:
+      - name: build_docker
+        type: DockerBuild
+        configuration:
+          dockerFileLocation: .
+          dockerFileName: Dockerfile
+          dockerImageName: 35.240.195.241:8081/docker/disha
+          dockerImageTag: $pipeline_name.$run_number
+          inputResources:
+            - name: dockerbuild_repo
+            #- name:
+            - name: files
+            - name: dh_image
+          integrations:
+            - name: artdisha
+      - name: push_docker_image
+        type: DockerPush
+        configuration:
+          targetRepository: docker
+          integrations:
+            - name: artdisha
+          inputSteps:
+            - name: build_docker
+      - name: publish_docker_build
+        type: PublishBuildInfo
+        configuration:
+         # integrations:
+          #  - name: Art1.
+          inputSteps:
+            - name: push_docker_image
+          outputResources:
+            - name: docker_build_info
