@@ -1,0 +1,56 @@
+resources:
+  - name: artifactory_go_example
+    type: GitRepo
+    configuration:
+      path: dishameswania/artifactory-go-example
+      gitProvider: github-disha
+  - name: go_build_info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artdisha
+      buildName: go_example_build
+      buildNumber: 1
+  - name: files1
+    type: FileSpec
+    configuration:
+      sourceArtifactory: artdisha
+      pattern: generic-local/*
+ 
+pipelines:
+  - name: go_example_build
+    steps:
+      - name: build_go
+        type: GoBuild
+        configuration:
+          sourceLocation: .
+          repository: go
+          outputLocation: /tmp/dist
+          outputFile: hello
+          inputResources:
+            - name: artifactory_go_example
+            - name: files1
+          integrations:
+            - name: artdisha
+        execution:
+          onStart:
+            - wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz
+            - sudo tar -C /usr/local -xzf go1.12.5.linux-amd64.tar.gz
+            - export PATH=$PATH:/usr/local/go/bin
+            - go version
+      - name: push_go_binary
+        type: GoPublishBinary
+        configuration:
+          targetRepository: generic-local
+          integrations:
+            - name: artdisha
+          inputSteps:
+            - name: build_go
+      - name: publish_go_build
+        type: PublishBuildInfo
+        configuration:
+          #integrations:
+            #- name: artdisha
+          inputSteps:
+            - name: push_go_binary
+          outputResources:
+            - name: go_build_info
