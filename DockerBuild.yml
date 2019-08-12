@@ -1,10 +1,4 @@
 resources:
-  - name: dh_image
-    type: Image
-    configuration:
-      registry: dockerhub
-      imageName: nginx
-      imageTag: latest
   - name: docker_image
     type: Image
     configuration:
@@ -16,7 +10,7 @@ resources:
     type: GitRepo
     configuration:
       path: dishameswania/ArtifactoryTest
-      gitProvider: github-disha
+      gitProvider: GithubDisha
   - name: docker_build_info
     type: BuildInfo
     configuration:
@@ -43,7 +37,6 @@ pipelines:
             - name: dockerbuild_repo
             #- name:
             - name: files
-            - name: dh_image
           integrations:
             - name: artdisha
       - name: push_docker_image
