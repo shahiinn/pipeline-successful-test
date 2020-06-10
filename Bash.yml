@@ -3,7 +3,7 @@ resources:
     type:       GitRepo
     configuration:
       gitProvider:  gitsource
-      path:         shahiinn/project-examples     
+      path:         shahiinn/pipeline-successful-test     
 
 pipelines:
   - name: pipe1
