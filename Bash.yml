@@ -14,6 +14,7 @@ pipelines:
       execution:
           onExecute:
             - echo "hey, I am running"
+            - echo "FROM hello-world" > Dockerfile
           onSuccess:
             - echo "Job well done!"
           onFailure:
@@ -22,3 +23,51 @@ pipelines:
             - echo "Cleaning up some stuff."
           onCancel:
             - echo "Someone cancelled the job."
+
+pipelines:
+
+  - name: poc_pipeline_hello_docker
+
+    steps:
+
+      - name: build_image
+
+        type: DockerBuild
+
+        configuration:
+
+          affinityGroup: hello_docker
+
+          dockerFileLocation: .
+
+          dockerFileName: Dockerfile
+
+          dockerImageName: "10.70.30.71:8082/docker-local/pp-centos"
+
+          dockerImageTag: ${run_number}
+
+          inputResources:
+
+            - name: Git
+
+          integrations:
+
+            - name: MyArtifactory
+
+      - name: push_image
+
+        type: DockerPush
+
+        configuration:
+
+          affinityGroup: hello_docker
+
+          targetRepository: "docker-local"
+
+          inputSteps:
+
+            - name: build_image
+
+          integrations:
+
+            - name: MyArtifactory
