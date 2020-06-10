@@ -10,6 +10,8 @@ pipelines:
     steps:
     - name: try1
       type: Bash            
+      configuration:
+        affinityGroup: hello_docker      
       execution:
           onExecute:
             - echo "hey, I am running"
