@@ -24,11 +24,6 @@ pipelines:
           onCancel:
             - echo "Someone cancelled the job."
 
-pipelines:
-
-  - name: poc_pipeline_hello_docker
-
-    steps:
 
       - name: build_image
 
