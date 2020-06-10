@@ -32,6 +32,8 @@ pipelines:
         dockerFileName: Dockerfile
         dockerImageName: "10.70.30.71:8082/docker-local/pp-centos"
         dockerImageTag: ${run_number}
+        inputSteps:
+          - name: try1
         inputResources:
           - name: Git
         integrations:
