@@ -16,6 +16,7 @@ pipelines:
           onExecute:
             - echo "hey, I am running"
             - echo "FROM hello-world" > Dockerfile
+            - curl https://entplus.jfrog.io/artifactory/api/system/ping -Lvv
           onSuccess:
             - echo "Job well done!"
           onFailure:
@@ -26,27 +27,27 @@ pipelines:
             - echo "Someone cancelled the job."
 
 
-    - name: build_image
-      type: DockerBuild
-      configuration:
-        affinityGroup: hello_docker
-        dockerFileLocation: .
-        dockerFileName: Dockerfile
-        dockerImageName: "10.70.30.71:8082/docker-local/pp-centos"
-        dockerImageTag: ${run_number}
-        inputSteps:
-          - name: try1
-        inputResources:
-          - name: Git
-        integrations:
-          - name: MyArtifactory
+#    - name: build_image
+#      type: DockerBuild
+#      configuration:
+#        affinityGroup: hello_docker
+#        dockerFileLocation: .
+#        dockerFileName: Dockerfile
+#        dockerImageName: "10.70.30.71:8082/docker-local/pp-centos"
+#        dockerImageTag: ${run_number}
+#        inputSteps:
+#          - name: try1
+#        inputResources:
+#          - name: Git
+#        integrations:
+#          - name: MyArtifactory
 
-    - name: push_image
-      type: DockerPush
-      configuration:
-        affinityGroup: hello_docker
-        targetRepository: "docker-local"
-        inputSteps:
-          - name: build_image
-        integrations:
-          - name: MyArtifactory
+#    - name: push_image
+#      type: DockerPush
+#      configuration:
+#        affinityGroup: hello_docker
+#        targetRepository: "docker-local"
+#        inputSteps:
+#          - name: build_image
+#        integrations:
+#          - name: MyArtifactory
