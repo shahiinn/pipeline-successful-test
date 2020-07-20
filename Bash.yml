@@ -11,14 +11,16 @@ pipelines:
     - name: try1
       type: Bash            
       configuration:
-        affinityGroup: hello_docker      
+        affinityGroup: hello_docker
+        inputResources:
+            - name: Git       
       execution:
           onExecute:
             - echo "hey, I am running"
             - echo "FROM hello-world" > Dockerfile
-            - curl https://entplus.jfrog.io/artifactory/api/system/ping -Lvv
+            - source ${res_Git_resourcePath}/custom.sh
           onSuccess:
-            - echo "Job well done!"
+            - update_commit_status_custom Git --context "${step_name}" --message "some test success" --url "https://google.com"
           onFailure:
             - echo "uh oh, something went wrong."
           onComplete: #always
