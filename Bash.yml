@@ -21,7 +21,7 @@ pipelines:
             - source ${res_Git_resourcePath}/custom.sh
           onSuccess:
             - 'update_commit_status_custom Git --context "${step_name}" --message "test1 \n URL : test url" --url "https://google.com"'
-            - 'update_commit_status_custom Git --context "${step_name}" --message "Image scan result: " --url "https://google.com"'
+            - 'update_commit_status_custom Git --context "-" --message "Image scan result: " --url "https://google.com/test"'
           onFailure:
             - echo "uh oh, something went wrong."
           onComplete: #always
