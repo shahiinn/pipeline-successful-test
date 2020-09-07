@@ -1,10 +1,10 @@
 resources:
-  - name:       Git
+  - name:       webhookint
     type:       IncomingWebhook
     configuration:
       webhookName:  testingint    
 
-  - name:       webhookint
+  - name:       Git
     type:       GitRepo
     configuration:
       gitProvider:  shahin_git
