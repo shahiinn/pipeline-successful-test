@@ -1,9 +1,14 @@
 resources:
   - name:       Git
+    type:       IncomingWebhook
+    configuration:
+      webhookName:  testingint    
+
+  - name:       webhookint
     type:       GitRepo
     configuration:
       gitProvider:  shahin_git
-      path:         shahiinn/pipeline-successful-test     
+      path:         shahiinn/pipeline-successful-test  
 
 pipelines:
   - name: pipe1
@@ -11,20 +16,14 @@ pipelines:
     - name: try1
       type: Bash            
       configuration:
-        runtime:      
-          type: image
-          image:
-            custom:
-              name: jenkins/jenkins-agent-docker
-              tag: 19.03.8-ce-9
-              registry: shahinrepo21            # if custom image is private, an integration is required for authentication
-              sourceRepository:  docker.jfrog.io
         affinityGroup: hello_docker
         inputResources:
-            - name: Git       
+            - name: Git  
+            - name: webhookint
       execution:
           onExecute:
             - echo "hey, I am running"
+            - echo res_webhookint_payload
             - echo "FROM hello-world" > Dockerfile
             - source ${res_Git_resourcePath}/custom.sh
           onSuccess:
