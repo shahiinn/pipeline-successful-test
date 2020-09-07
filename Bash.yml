@@ -11,6 +11,14 @@ pipelines:
     - name: try1
       type: Bash            
       configuration:
+        runtime:      
+          type: image
+          image:
+            custom:
+              name: jenkins/jenkins-agent-docker
+              tag: 19.03.8-ce-9
+              registry: repo21            # if custom image is private, an integration is required for authentication
+              sourceRepository:  docker.jfrog.io
         affinityGroup: hello_docker
         inputResources:
             - name: Git       
