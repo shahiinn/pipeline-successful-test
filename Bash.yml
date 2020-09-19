@@ -22,6 +22,7 @@ pipelines:
       execution:
           onExecute:
             - echo "hey, I am running"
+            - cat ~/.env
           onSuccess:
             - 'update_commit_status_custom Git --context "${step_name}" --message "test1 \n URL : test url" --url "https://google.com"'
             - 'update_commit_status_custom Git --context "${step_name} Image scan result:" --message "\t\t\t ===>> " --url "https://google.com/test"'
