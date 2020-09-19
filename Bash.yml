@@ -47,7 +47,8 @@ pipelines:
       execution:
           onExecute:
             - echo "hey, I am running"
-            - printenv | grep -E "SKIP_HELM|PRODUCT_RESOLVE_REPO|PRODUCT_DEPLOY_REPO|PRODUCT_VERSION|PRODUCT_NAME|BUILD_CHART|SKIP_HELM_BUILD|INSTALLER_COMMON_REPO|INSTALLER_COMMON_VERSION|BUILD_NAME_SUFFIX|BUILD_PARAMS_SRC|BUILD_NUMBER|HELM_VERSION|TEST_IMAGE|TEST_IMAGE_TAG|KUBEVAL_VERSION|CHART_TESTING_ARGS|DOCKERREPO|GCLOUD_GKE_CLUSTER|GCLOUD_SERVICE_KEY_CHARTS_CI|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|EKS_KUBECONFIG|CHART_TESTING_IMAGE|CHART_TESTING_TAG|REPO_ROOT" | grep -E -v "step_configuration|current_cmd" > step_env_file
+            - printenv | grep -E "PRODUCT_RESOLVE_REPO|PRODUCT_DEPLOY_REPO|PRODUCT_VERSION|PRODUCT_NAME|BUILD_CHART|SKIP_HELM_BUILD|INSTALLER_COMMON_REPO|INSTALLER_COMMON_VERSION|BUILD_NAME_SUFFIX|BUILD_PARAMS_SRC|BUILD_NUMBER|HELM_VERSION|TEST_IMAGE|TEST_IMAGE_TAG|KUBEVAL_VERSION|DOCKERREPO|CHART_TESTING_IMAGE|CHART_TESTING_TAG|REPO_ROOT" | grep -E -v "step_configuration|current_cmd" > step_env_file
+            - add_pipeline_files step_env_file pipeline_env_var
             - cat steplet.env
             - cat step_env_file
           onSuccess:
@@ -76,6 +77,9 @@ pipelines:
                 echo "Helm chart build is disabled. Skipping"
                 exit 0
               fi
+            - restore_pipeline_files pipeline_env_var envfile
+            - cat envfile
+
             - echo "hey, I am running new"
 
 
