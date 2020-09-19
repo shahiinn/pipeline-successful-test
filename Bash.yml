@@ -8,6 +8,10 @@ resources:
 
 pipelines:
   - name: pipe1
+    configuration:
+      environmentVariables:
+        readOnly:
+          SKIP_HELM: NO
     steps:
     - name: try1
       type: Bash            
@@ -39,6 +43,11 @@ pipelines:
             - name: Git
       execution:
           onExecute:
+            - |
+              if [[ "${SKIP_HELM}" == "YES" || "${SKIP_HELM}" == "yes" ]]
+                echo "Helm chart build is disabled. Skipping"
+                exit 0
+              fi
             - echo "hey, I am running new"
 
 
