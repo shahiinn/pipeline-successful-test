@@ -22,9 +22,6 @@ pipelines:
       execution:
           onExecute:
             - echo "hey, I am running"
-            - echo $res_webhookint_payload
-            - echo "FROM hello-world" > Dockerfile
-            - source ${res_Git_resourcePath}/custom.sh
           onSuccess:
             - 'update_commit_status_custom Git --context "${step_name}" --message "test1 \n URL : test url" --url "https://google.com"'
             - 'update_commit_status_custom Git --context "${step_name} Image scan result:" --message "\t\t\t ===>> " --url "https://google.com/test"'
@@ -41,12 +38,12 @@ pipelines:
       configuration:
         affinityGroup: hello_docker
         inputSteps:
-            - name: a_preSetup
+            - name: try1
         inputResources:
             - name: Git
       execution:
           onExecute:
-            - echo "hey, I am running"
+            - echo "hey, I am running new"
 
 
 
