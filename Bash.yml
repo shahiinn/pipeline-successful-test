@@ -1,8 +1,4 @@
-resources:
-  - name:       webhookint
-    type:       IncomingWebhook
-    configuration:
-      webhookName:  testingint    
+resources: 
 
   - name:       Git
     type:       GitRepo
