@@ -44,7 +44,7 @@ pipelines:
       execution:
           onExecute:
             - |
-              if [[ "${SKIP_HELM}" == "YES" || "${SKIP_HELM}" == "yes" ]]
+              if [[ "${SKIP_HELM}" == "YES" || "${SKIP_HELM}" == "yes" ]]; then
                 echo "Helm chart build is disabled. Skipping"
                 exit 0
               fi
