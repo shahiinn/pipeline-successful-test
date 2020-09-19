@@ -12,6 +12,31 @@ pipelines:
       environmentVariables:
         readOnly:
           SKIP_HELM: NO
+          RODUCT_RESOLVE_REPO: xray-dev
+          PRODUCT_DEPLOY_REPO: xray-dev
+          PRODUCT_VERSION: 3.x-feature-INST-1264-33
+          PRODUCT_NAME: xray
+          BUILD_CHART: CUSTOM
+          SKIP_HELM_BUILD: NO
+          INSTALLER_COMMON_REPO: feature-INST-1267-local
+          INSTALLER_COMMON_VERSION: 1.*
+          BUILD_NAME_SUFFIX: feature-INST-1267-devbranch
+          BUILD_PARAMS_SRC: src/products/build-params.json
+          BUILD_NUMBER: 33
+          HELM_VERSION: v3.2.4
+          TEST_IMAGE: docker.io/rimusz/gke-charts-ci
+          TEST_IMAGE_TAG: v0.0.3
+          KUBEVAL_VERSION: 0.15.0
+          CHART_TESTING_ARGS: ""
+          DOCKERREPO: docker.jfrog.io
+          GCLOUD_GKE_CLUSTER: ${int_charts_testing_cluster_cluster}
+          GCLOUD_SERVICE_KEY_CHARTS_CI: ${int_charts_testing_cluster_gcp_service_key}
+          AWS_ACCESS_KEY_ID: ${int_charts_testing_cluster_v16_accessKeyId}
+          AWS_SECRET_ACCESS_KEY: ${int_charts_testing_cluster_v16_secretAccessKey}
+          EKS_KUBECONFIG: ${int_charts_testing_cluster_eks_v16_config}
+          CHART_TESTING_IMAGE: docker.io/chukka/eks-charts-ci
+          CHART_TESTING_TAG: v3.0.1
+          REPO_ROOT: ${res_jfrog_installercommon_bitbucket_resourcePath}/src/products/helm-charts
     steps:
     - name: try1
       type: Bash            
