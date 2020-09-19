@@ -47,7 +47,7 @@ pipelines:
       execution:
           onExecute:
             - echo "hey, I am running"
-            - printenv
+            - printenv | grep -E "SKIP_HELM_BUILD|PRODUCT_RESOLVE_REPO|PRODUCT_DEPLOY_REPO|PRODUCT_VERSION|PRODUCT_NAME|BUILD_CHART|SKIP_HELM_BUILD|INSTALLER_COMMON_REPO|INSTALLER_COMMON_VERSION|BUILD_NAME_SUFFIX|BUILD_PARAMS_SRC|BUILD_NUMBER|HELM_VERSION|TEST_IMAGE|TEST_IMAGE_TAG|KUBEVAL_VERSION|CHART_TESTING_ARGS|DOCKERREPO|GCLOUD_GKE_CLUSTER|GCLOUD_SERVICE_KEY_CHARTS_CI|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|EKS_KUBECONFIG|CHART_TESTING_IMAGE|CHART_TESTING_TAG|REPO_ROOT"
           onSuccess:
             - 'update_commit_status_custom Git --context "${step_name}" --message "test1 \n URL : test url" --url "https://google.com"'
             - 'update_commit_status_custom Git --context "${step_name} Image scan result:" --message "\t\t\t ===>> " --url "https://google.com/test"'
