@@ -18,8 +18,7 @@ pipelines:
       configuration:
         affinityGroup: hello_docker
         inputResources:
-            - name: Git  
-            - name: webhookint
+            - name: Git
       execution:
           onExecute:
             - echo "hey, I am running"
@@ -35,6 +34,20 @@ pipelines:
             - echo "Cleaning up some stuff."
           onCancel:
             - echo "Someone cancelled the job."
+
+
+    - name: try2
+      type: Bash            
+      configuration:
+        affinityGroup: hello_docker
+        inputSteps:
+            - name: a_preSetup
+        inputResources:
+            - name: Git
+      execution:
+          onExecute:
+            - echo "hey, I am running"
+
 
 
 #    - name: build_image
