@@ -59,7 +59,7 @@ pipelines:
           onComplete: #always
             - echo "Cleaning up some stuff."
           onCancel:
-            - echo "Someone cancelled the job."
+            - echo "Someone cancelled the job......."
 
 
     - name: try2
